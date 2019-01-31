@@ -1,2 +1,2 @@
-# Gamesense-Lua-Scripts
+# Gamesense Lua Scripts
 Lua scripts for Gamesense
