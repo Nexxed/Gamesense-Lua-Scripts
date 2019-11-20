@@ -1,5 +1,5 @@
 # Indicators
-## [Safepoint](Indicators/safepoint_indicator.lua)
+## [Safe point](Indicators/safepoint_indicator.lua)
 A simple indicator that shows when safe point is preferred or forced via key.
 
 ## [Freestanding](Indicators/freestand_indicator.lua)
