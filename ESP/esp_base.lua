@@ -1,6 +1,5 @@
 local esp = require("esp")
 local surface = require("surface")
-local ins = require("inspect")
 local bit = require("bit")
 local band = bit.band
 
