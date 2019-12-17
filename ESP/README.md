@@ -57,7 +57,8 @@ local testfont = renderer.create_font("Small Fonts", 8, 400, {0x010, 0x200})
 -- this function gets called every frame
 client.set_event_callback("paint", function()
 
-    -- get a player in the
+    -- get and loop through each player in esp.get_players()
+    -- this is recommended over the default entity.get_players() function
     for k,player in pairs(esp.get_players()) do
 
         -- add some text to the left of the player ESP
