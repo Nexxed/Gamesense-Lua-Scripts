@@ -10,5 +10,8 @@ A simple indicator that shows when freestand is enabled.
 A script to easily toggle between fake lag, on-shot anti-aim and double tap, as well as adjusting the behaviour after/during these modes.
 Compiled because the code is messy :(
 
+## [Priority on key](priority.lua)
+A simple enough script to prioritize the target you're currently looking at by pressing a key.
+
 ## [Custom ESP library](ESP/)
 This script allows you to build your own ESP and acts as a library or wrapper for all the complicated math needed to draw text and bars. An example is included too so you can learn how to use it properly.
