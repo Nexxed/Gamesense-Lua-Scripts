@@ -1,3 +1,16 @@
+local function safeRequire(mod, link)
+    local status, err, ret = pcall(require, mod)
+    local retval = status == true and err or false
+
+    if(retval == false) then
+        client.log(string.format("[PriorityOnKey] %s doesn't exist. The script won't use any of its functions. (%s)", mod, link))
+    end
+
+    return retval
+end
+
+local notify = safeRequire("notify", "https://gamesense.pub/forums/viewtopic.php?id=8929")
+
 -- playerlist stuff for flags
 local rbot, rbot_key = ui.reference("RAGE", "Aimbot", "Enabled")
 local playerlist = ui.reference("PLAYERS", "Players", "Player list")
@@ -7,7 +20,8 @@ local high_priority = ui.reference("PLAYERS", "Adjustments", "High priority")
 
 local script = {
     enabled = ui.new_checkbox("RAGE", "Aimbot", "Prioritize target"),
-    key = ui.new_hotkey("RAGE", "Aimbot", "Prioritize target key", true)
+    key = ui.new_hotkey("RAGE", "Aimbot", "Prioritize target key", true),
+    notifications = ui.new_checkbox("RAGE", "Aimbot", "Prioritize notifications")
 }
 
 function can_draw_player(entindex)
@@ -61,6 +75,8 @@ client.set_event_callback("run_command", function(c)
     client.update_player_list()
     priority = {}
 
+    ui.set_visible(script.notifications, ui.get(script.enabled))
+
     if not ui.is_menu_open() then
         for _, v in pairs(entity.get_players(true)) do
             ui.set(playerlist, v)
@@ -76,6 +92,10 @@ end)
 
 local lastUpdate = 0
 client.set_event_callback("paint", function()
+    if(notify ~= false) then
+        notify:listener()
+    end
+
     if(ui.get(rbot) and ui.get(rbot_key) and ui.get(script.enabled)) then
         local players = get_players()
 
@@ -93,6 +113,19 @@ client.set_event_callback("paint", function()
                         ui.set(playerlist, player)
                         ui.set(high_priority, not priority[player])
                         lastUpdate = client.timestamp()
+
+                        if(notify ~= false and ui.get(script.notifications) == true) then
+                            notify.add(2, true, {
+                                255, 255, 255,
+                                string.format(
+                                    "%s priority for player ",
+                                    priority[player] == false and "Added" or "Removed"
+                                )
+                            }, {
+                                128, 196, 12,
+                                entity.get_player_name(player)
+                            })
+                        end
                     end
                 end
             end
